@@ -1,3 +1,36 @@
+/*
+ * Author: Cristian Gonzalez & Ignacio Roncero
+ * Since: July 2025
+ * Description: This Groovy script is designed to perform a comprehensive audit of a specific user's
+ * **Role-Based Access Control (RBAC)** permissions within a CloudBees Core CI environment,
+ * tracing those permissions from a specified Jenkins item up through all inherited contexts.
+ *
+ * It effectively answers the question: "What permissions does 'username' have on 'itemPath',
+ * and where do those permissions come from?"
+ *
+ * Key Functions:
+ * ---------------------------------------------------------------------------------------
+ * 1. Role and Group Tracing:
+ * - The script iterates from the target item (`itemPath`) up to the Jenkins root,
+ * examining the RBAC Group Container at every level (folder, job, root).
+ * 2. User-to-Group Resolution:
+ * - It identifies all groups the specified `username` belongs to at the current context level.
+ * 3. Ancestry Resolution:
+ * - It traces and resolves the full **nested hierarchy** of groups to ensure all
+ * inherited roles (from parent groups) are captured.
+ * 4. Permission Collection:
+ * - For every inherited role, it retrieves the associated **explicit permissions**
+ * (e.g., Job/Read, View/Configure).
+ * 5. Deduplication:
+ * - It includes logic to prevent listing the same role's permissions multiple times
+ * if it is inherited through multiple group paths or contexts.
+ *
+ * The final output provides a clear, categorized summary of every unique RBAC role applied to the
+ * user, detailing the group they belong to, the full group path, and the context (Jenkins root or specific item)
+ * where that role was assigned.
+ */
+
+
 import jenkins.model.Jenkins
 import hudson.model.Item
 import nectar.plugins.rbac.strategy.RoleMatrixAuthorizationPlugin
