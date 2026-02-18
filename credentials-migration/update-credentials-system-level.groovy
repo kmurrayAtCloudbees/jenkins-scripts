@@ -7,6 +7,7 @@ Description: Decode from export-credentials-root-level.groovy script, all the cr
 import com.cloudbees.plugins.credentials.SystemCredentialsProvider
 import com.cloudbees.plugins.credentials.domains.DomainCredentials
 import hudson.util.XStream2
+import java.util.Base64
 import jenkins.model.Jenkins
 
 // Paste the encoded message from the script on the source Jenkins
