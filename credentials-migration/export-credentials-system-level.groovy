@@ -15,6 +15,7 @@ import com.thoughtworks.xstream.converters.MarshallingContext
 import com.thoughtworks.xstream.converters.UnmarshallingContext
 import com.thoughtworks.xstream.io.HierarchicalStreamReader
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter
+import java.util.Base64
 import hudson.util.Secret
 import com.cloudbees.plugins.credentials.SecretBytes
 import hudson.util.XStream2
