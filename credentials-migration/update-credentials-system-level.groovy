@@ -6,21 +6,22 @@ Description: Decode from export-credentials-root-level.groovy script, all the cr
 
 import com.cloudbees.plugins.credentials.SystemCredentialsProvider
 import com.cloudbees.plugins.credentials.domains.DomainCredentials
+import java.util.Base64
 import hudson.util.XStream2
 import jenkins.model.Jenkins
 
 // Paste the encoded message from the script on the source Jenkins
 def encoded = []
 // If you encounter the error "String too long. The given string is X Unicode code units long, but only a maximum of 65535 is allowed." when running this script,
-// save the encoded data to a file, such as /home/jenkins/system_credentials.txt, omitting the starting [" and ending "], and un-comment the following line:
-// encoded = [new File("/home/jenkins/system_credentials.txt").text]
+// save the encoded data to a file, such as /home/jenkins/credentials.txt, omitting the starting [" and ending "], and un-comment the following line:
+// encoded = [new File("/home/jenkins/credentials.txt").text]
 if (!encoded) {
     return
 }
 
 // The message is decoded and unmarshaled
 for (slice in encoded) {
-    def decoded = new String(Base64.getDecoder().decode(slice))
+    def decoded = new String(Base64.decode(slice.chars))
     def list = new XStream2().fromXML(decoded) as List<DomainCredentials>
     // Put all the domains from the list into system credentials
     def store = Jenkins.get().getExtensionList(SystemCredentialsProvider.class).first().getStore()
